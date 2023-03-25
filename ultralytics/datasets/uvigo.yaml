@@ -15,13 +15,15 @@ test:  # test images (optional)
 
 # Classes
 names:
-  1: person
-  2: bicycle
-  3: car
-  4: motorcycle
-  6: bus
-  8: truck
+  0: person
+  1: bicycle
+  2: car
+  3: motorcycle
+  4: airplane
+  5: bus
+  6: train
+  7: truck
 
 
 # Download script/URL (optional)
-# TODO
+download: https://universidadevigo-my.sharepoint.com/:u:/g/personal/david_conde_morales_uvigo_gal/ESKK3M9hASFBkk-PM98sP08B02eyCyROIogYtRr65sLNmQ?e=tZWWuO

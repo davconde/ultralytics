@@ -28,6 +28,7 @@ class Labelme2YOLO(object):
         self._multi_video = kwargs["args"].multi_video
         self._split_dataset = kwargs["args"].split_dataset
         self._save_image = kwargs["args"].save_image
+        self._shift_class_id = kwargs["args"].shift_class_id
         if not self._save_image:
             self._image_width = kwargs["args"].image_width
             self._image_height = kwargs["args"].image_height
@@ -84,8 +85,10 @@ class Labelme2YOLO(object):
                     for shape in data['shapes']:
                         label_set.add(shape['label'])
 
-        return OrderedDict([label.split('_') \
-                            for label in label_set])
+        dict = OrderedDict([label.split('_') for label in label_set])
+        dict = OrderedDict([(k, str(int(v) + self._shift_class_id)) for k, v in dict.items()])
+
+        return dict
 
     def _train_test_split(self, folders, json_names, val_size):
         if len(folders) > 0 and 'train' in folders and 'val' in folders:
@@ -272,11 +275,11 @@ class Labelme2YOLO(object):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--labels_dir', type=str,
-                        help='Please input the path of the labelme json files.')
+                        help='Please input the path of the labelme json files')
     parser.add_argument('--target_dir', help='A directory where to save all mixed data',
                         required=False, default=None)
     parser.add_argument('--val_size', type=float, nargs='?', default=None,
-                        help='Please input the validation dataset size, for example 0.1 ')
+                        help='Please input the validation dataset size, for example 0.1')
     parser.add_argument('--json_name', type=str, nargs='?', default=None,
                         help='If you put json name, it would convert only one json file to YOLO.')
     parser.add_argument('--multi_video', default=False, action="store_true",
@@ -289,6 +292,9 @@ if __name__ == '__main__':
                         required=False, default=1920)
     parser.add_argument('--image_height', help='Set image height if not image saved from imageData',
                         required=False, default=1080)
+    parser.add_argument('--shift_class_id', type=int,
+                        help='Shifts the class ID. Useful to change to/from zero based index',
+                        required=False, default=0)
     args = parser.parse_args(sys.argv[1:])
 
     labels_dir = args.labels_dir
