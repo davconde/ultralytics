@@ -19,7 +19,7 @@ workers: 8  # number of worker threads for data loading (per RANK if DDP)
 project: InfraROB  # project name
 name: Exp1  # experiment name, results saved to 'project/name' directory
 exist_ok: False  # whether to overwrite existing experiment
-pretrained: False  # whether to use a pretrained model
+pretrained: True  # whether to use a pretrained model
 optimizer: SGD  # optimizer to use, choices=['SGD', 'Adam', 'AdamW', 'RMSProp']
 verbose: True  # whether to print verbose output
 seed: 0  # random seed for reproducibility
@@ -29,7 +29,7 @@ image_weights: False  # use weighted image selection for training
 rect: False  # support rectangular training if mode='train', support rectangular evaluation if mode='val'
 cos_lr: False  # use cosine learning rate scheduler
 close_mosaic: 10  # disable mosaic augmentation for final 10 epochs
-resume: True  # resume training from last checkpoint
+resume: False  # resume training from last checkpoint
 # Segmentation
 overlap_mask: True  # masks should overlap during training (segment train only)
 mask_ratio: 4  # mask downsample ratio (segment train only)
