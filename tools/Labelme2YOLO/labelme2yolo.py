@@ -83,6 +83,8 @@ class Labelme2YOLO(object):
                     except:
                         continue
                     for shape in data['shapes']:
+                        if not '_' in shape['label']:
+                            continue
                         label_set.add(shape['label'])
 
         dict = OrderedDict([label.split('_') for label in label_set])
@@ -175,6 +177,8 @@ class Labelme2YOLO(object):
             img_h = self._image_height
             img_w = self._image_width
         for shape in json_data['shapes']:
+            if not '_' in shape['label']:
+                continue
             # labelme circle shape is different from others
             # it only has 2 points, 1st is circle center, 2nd is drag end point
             if shape['shape_type'] == 'circle':
