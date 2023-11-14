@@ -25,11 +25,14 @@ verbose: True  # whether to print verbose output
 seed: 0  # random seed for reproducibility
 deterministic: True  # whether to enable deterministic mode
 single_cls: False  # train multi-class data as single-class
-image_weights: False  # use weighted image selection for training
 rect: False  # support rectangular training if mode='train', support rectangular evaluation if mode='val'
 cos_lr: False  # use cosine learning rate scheduler
 close_mosaic: 10  # disable mosaic augmentation for final 10 epochs
 resume: False  # resume training from last checkpoint
+amp: True  # (bool) Automatic Mixed Precision (AMP) training, choices=[True, False], True runs AMP check
+fraction: 1.0  # (float) dataset fraction to train on (default is 1.0, all images in train set)
+profile: False  # (bool) profile ONNX and TensorRT speeds during training for loggers
+freeze: None  # (int | list, optional) freeze first n layers, or freeze list of layer indices during training
 # Segmentation
 overlap_mask: True  # masks should overlap during training (segment train only)
 mask_ratio: 4  # mask downsample ratio (segment train only)
@@ -54,10 +57,11 @@ show: False  # show results if possible
 save_txt: False  # save results as .txt file
 save_conf: False  # save results with confidence scores
 save_crop: False  # save cropped images with results
-hide_labels: False  # hide labels
-hide_conf: False  # hide confidence scores
+show_labels: True  # (bool) show object labels in plots
+show_conf: True  # (bool) show object confidence scores in plots
 vid_stride: 1  # video frame-rate stride
-line_thickness: 3  # bounding box thickness (pixels)
+stream_buffer: False  # (bool) buffer all streaming frames (True) or return the most recent frame (False)
+line_width: 3  # (int, optional) line width of the bounding boxes, auto if missing
 visualize: False  # visualize model features
 augment: False  # apply image augmentation to prediction sources
 agnostic_nms: False  # class-agnostic NMS
@@ -87,7 +91,8 @@ warmup_bias_lr: 0.1  # warmup initial bias lr
 box: 7.5  # box loss gain
 cls: 0.5  # cls loss gain (scale with pixels)
 dfl: 1.5  # dfl loss gain
-fl_gamma: 0.0  # focal loss gamma (efficientDet default gamma=1.5)
+pose: 12.0  # (float) pose loss gain
+kobj: 1.0  # (float) keypoint obj loss gain
 label_smoothing: 0.0  # label smoothing (fraction)
 nbs: 64  # nominal batch size
 hsv_h: 0.015  # image HSV-Hue augmentation (fraction)
@@ -106,9 +111,6 @@ copy_paste: 0.0  # segment copy-paste (probability)
 
 # Custom config.yaml ---------------------------------------------------------------------------------------------------
 cfg:  # for overriding defaults.yaml
-
-# Debug, do not modify -------------------------------------------------------------------------------------------------
-v5loader: False  # use legacy YOLOv5 dataloader
 
 # Tracker settings ------------------------------------------------------------------------------------------------------
 tracker: botsort.yaml  # tracker type, ['botsort.yaml', 'bytetrack.yaml']

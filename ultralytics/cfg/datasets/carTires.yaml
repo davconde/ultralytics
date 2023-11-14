@@ -1,0 +1,14 @@
+path: ../datasets/car_tire_augm
+train: ./train/images
+val: ./valid/images
+test: ./test/images
+
+nc: 1
+names: ['car-tire']
+
+roboflow:
+  workspace: jonast
+  project: tire_model
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/jonast/tire_model/dataset/1
