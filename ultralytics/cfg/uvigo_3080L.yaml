@@ -5,7 +5,7 @@ task: detect  # inference task, i.e. detect, segment, classify
 mode: train  # YOLO mode, i.e. train, val, predict, export
 
 # Train settings -------------------------------------------------------------------------------------------------------
-model: yolov8n.pt  # path to model file, i.e. yolov8n.pt, yolov8n.yaml
+model: C:\Users\david\Documents\source\ultralytics\InfraROB\960_Synthetic\weights\best.pt  # path to model file, i.e. yolov8n.pt, yolov8n.yaml
 data: uvigo.yaml  # path to data file, i.e. coco128.yaml
 epochs: 350  # number of epochs to train for
 patience: 150  # epochs to wait for no observable improvement for early stopping of training
@@ -17,7 +17,7 @@ cache: False  # True/ram, disk or False. Use cache for data loading
 device:  # device to run on, i.e. cuda device=0 or device=0,1,2,3 or device=cpu
 workers: 8  # number of worker threads for data loading (per RANK if DDP)
 project: InfraROB  # project name
-name: Exp1  # experiment name, results saved to 'project/name' directory
+name: 960_Synthetic_Real  # experiment name, results saved to 'project/name' directory
 exist_ok: False  # whether to overwrite existing experiment
 pretrained: True  # whether to use a pretrained model
 optimizer: SGD  # optimizer to use, choices=['SGD', 'Adam', 'AdamW', 'RMSProp']

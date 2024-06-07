@@ -87,7 +87,7 @@ class Labelme2YOLO(object):
                             continue
                         label_set.add(shape['label'])
 
-        dict = OrderedDict([label.split('_') for label in label_set])
+        dict = OrderedDict([[label, label.split('_')[1]] for label in label_set])
         dict = OrderedDict([(k, str(int(v) + self._shift_class_id)) for k, v in dict.items()])
 
         return dict
@@ -203,7 +203,7 @@ class Labelme2YOLO(object):
         yolo_w = round(float(obj_w / img_w), 6)
         yolo_h = round(float(obj_h / img_h), 6)
 
-        label_id = self._label_id_map[shape['label'].rsplit('_', 1)[0]]
+        label_id = self._label_id_map[shape['label']]
 
         return label_id, yolo_center_x, yolo_center_y, yolo_w, yolo_h
 
@@ -223,7 +223,7 @@ class Labelme2YOLO(object):
         yolo_w = round(float(obj_w / img_w), 6)
         yolo_h = round(float(obj_h / img_h), 6)
 
-        label_id = self._label_id_map[shape['label'].rsplit('_', 1)[0]]
+        label_id = self._label_id_map[shape['label']]
 
         return label_id, yolo_center_x, yolo_center_y, yolo_w, yolo_h
 
