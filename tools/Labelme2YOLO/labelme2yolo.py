@@ -29,6 +29,7 @@ class Labelme2YOLO(object):
         self._split_dataset = kwargs["args"].split_dataset
         self._save_image = kwargs["args"].save_image
         self._shift_class_id = kwargs["args"].shift_class_id
+        self._fake_id = 0
         if not self._save_image:
             self._image_width = kwargs["args"].image_width
             self._image_height = kwargs["args"].image_height
@@ -83,8 +84,11 @@ class Labelme2YOLO(object):
                     except:
                         continue
                     for shape in data['shapes']:
-                        if not '_' in shape['label']:
+                        if shape['label'] == '':
                             continue
+                        if not '_' in shape['label']:
+                            shape['label'] = str(self._fake_id) + '_' + shape['label']
+                            self._fake_id += 1
                         label_set.add(shape['label'])
 
         dict = OrderedDict([[label, label.split('_')[1]] for label in label_set])
@@ -177,7 +181,7 @@ class Labelme2YOLO(object):
             img_h = self._image_height
             img_w = self._image_width
         for shape in json_data['shapes']:
-            if not '_' in shape['label']:
+            if shape['label'] == '':
                 continue
             # labelme circle shape is different from others
             # it only has 2 points, 1st is circle center, 2nd is drag end point
@@ -203,7 +207,10 @@ class Labelme2YOLO(object):
         yolo_w = round(float(obj_w / img_w), 6)
         yolo_h = round(float(obj_h / img_h), 6)
 
-        label_id = self._label_id_map[shape['label']]
+        if '_' in shape['label']:
+            label_id = self._label_id_map[shape['label']]
+        else:
+            label_id = str(int(shape['label']) + self._shift_class_id)
 
         return label_id, yolo_center_x, yolo_center_y, yolo_w, yolo_h
 
@@ -223,7 +230,10 @@ class Labelme2YOLO(object):
         yolo_w = round(float(obj_w / img_w), 6)
         yolo_h = round(float(obj_h / img_h), 6)
 
-        label_id = self._label_id_map[shape['label']]
+        if '_' in shape['label']:
+            label_id = self._label_id_map[shape['label']]
+        else:
+            label_id = str(int(shape['label']) + self._shift_class_id)
 
         return label_id, yolo_center_x, yolo_center_y, yolo_w, yolo_h
 
