@@ -31,8 +31,8 @@ class Labelme2YOLO(object):
         self._shift_class_id = kwargs["args"].shift_class_id
         self._fake_id = 0
         if not self._save_image:
-            self._image_width = kwargs["args"].image_width
-            self._image_height = kwargs["args"].image_height
+            self._image_width = int(kwargs["args"].image_width)
+            self._image_height = int(kwargs["args"].image_height)
 
         self._label_id_map = self._get_label_id_map(self._json_dir)
 
